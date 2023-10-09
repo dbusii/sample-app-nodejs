@@ -4,11 +4,21 @@ import { SessionProps, UserData } from '../../types';
 
 // Firebase config and initialization
 // Prod applications might use config file
-const { FIRE_API_KEY, FIRE_DOMAIN, FIRE_PROJECT_ID } = process.env;
+const { 
+    FIRE_API_KEY,
+    FIRE_DOMAIN,
+    FIRE_PROJECT_ID,
+    FIRE_STORAGE_BUCKET,
+    FIRE_SENDER_ID,
+    FIRE_APP_ID
+} = process.env;
 const firebaseConfig = {
     apiKey: FIRE_API_KEY,
     authDomain: FIRE_DOMAIN,
     projectId: FIRE_PROJECT_ID,
+    storageBucket: FIRE_STORAGE_BUCKET,
+    messagingSenderId: FIRE_SENDER_ID,
+    appId: FIRE_APP_ID
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

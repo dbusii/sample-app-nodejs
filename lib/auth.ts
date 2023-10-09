@@ -4,7 +4,16 @@ import * as BigCommerce from 'node-bigcommerce';
 import { ApiConfig, QueryParams, SessionContextProps, SessionProps } from '../types';
 import db from './db';
 
-const { API_URL, AUTH_CALLBACK, CLIENT_ID, CLIENT_SECRET, JWT_KEY, LOGIN_URL } = process.env;
+const { 
+    API_URL,
+    AUTH_CALLBACK,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    JWT_KEY,
+    LOGIN_URL,
+    STORE_HASH,
+    ACCESS_TOKEN
+} = process.env;
 
 // Used for internal configuration; 3rd party apps may remove
 const apiConfig: ApiConfig = {};
@@ -34,8 +43,8 @@ const bigcommerceSigned = new BigCommerce({
 export function bigcommerceClient(accessToken: string, storeHash: string, apiVersion = 'v3') {
     return new BigCommerce({
         clientId: CLIENT_ID,
-        accessToken,
-        storeHash,
+        accessToken: ACCESS_TOKEN,
+        storeHash: STORE_HASH,
         responseType: 'json',
         apiVersion,
         ...apiConfig,
@@ -67,7 +76,7 @@ export async function getSession({ query: { context = '' } }: NextApiRequest) {
         throw new Error('User is not available. Please login or ensure you have access permissions.');
     }
 
-    const accessToken = await db.getStoreToken(storeHash);
+    const accessToken = ACCESS_TOKEN;
 
     return { accessToken, storeHash, user };
 }
